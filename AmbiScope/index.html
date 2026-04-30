@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AmbiScope  CFG Parser Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <h1>AmbiScope</h1>
+        <p class="subtitle">
+          An interactive ambiguity analysis and parsing visualization framework for
+          context-free grammars (CFGs)
+        </p>
+      </div>
+      <div class="header-actions">
+        <button id="loadExampleBtn" class="btn secondary" type="button">Load Example</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel controls">
+        <h2>Inputs</h2>
+
+        <div class="field">
+          <label for="grammarInput">Context‑Free Grammar</label>
+          <textarea id="grammarInput" spellcheck="false"></textarea>
+          <div class="hint">
+            Use <code>A -&gt; alpha | beta</code> (symbols separated by spaces). Use
+            <code>ε</code> for empty.
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="startSymbolInput">Start Symbol (optional)</label>
+            <input
+              id="startSymbolInput"
+              type="text"
+              placeholder="(first LHS used if empty)"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="field">
+            <label for="parserSelect">Parser</label>
+            <select id="parserSelect">
+              <option value="ll1">LL(1)</option>
+              <option value="lr0">LR(0)</option>
+              <option value="slr1">SLR(1)</option>
+              <option value="lalr1">LALR(1)</option>
+              <option value="clr1">CLR(1)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="inputString">Input String</label>
+          <input
+            id="inputString"
+            type="text"
+            placeholder="Tokens separated by spaces (e.g. id + id * id)"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="btn-row">
+          <button id="analyzeBtn" class="btn" type="button">Analyze Grammar</button>
+          <button id="runBtn" class="btn primary" type="button" disabled>Run Parser</button>
+        </div>
+
+        <div id="statusBox" class="status" role="status" aria-live="polite"></div>
+      </section>
+
+      <section class="panel results">
+        <h2>Analysis</h2>
+
+        <div class="split">
+          <div class="col">
+            <h3>Grammar Summary</h3>
+            <div id="grammarSummary" class="card"></div>
+
+            <h3>Conflicts / Warnings</h3>
+            <div id="warningsBox" class="card"></div>
+          </div>
+          <div class="col">
+            <h3>FIRST / FOLLOW</h3>
+            <div id="setsBox" class="card"></div>
+          </div>
+        </div>
+
+        <h3>Parsing Table</h3>
+        <div id="tableBox" class="table-wrap"></div>
+
+        <div class="split">
+          <div class="col">
+            <h3>Step Trace</h3>
+            <div id="traceBox" class="card trace"></div>
+          </div>
+          <div class="col">
+            <h3>Parse Tree</h3>
+            <div id="treeBox" class="card tree"></div>
+            <div class="btn-row">
+              <button id="resetBtn" class="btn secondary" type="button" disabled>Reset</button>
+              <button id="prevStepBtn" class="btn secondary" type="button" disabled>Prev</button>
+              <button id="nextStepBtn" class="btn secondary" type="button" disabled>Next</button>
+              <button id="playPauseBtn" class="btn secondary" type="button" disabled>Play</button>
+            </div>
+          </div>
+        </div>
+
+        <details class="states"> 
+          <summary>Automaton States (LR parsers)</summary>
+          <div class="row states-row">
+            <label for="stateSelect">State</label>
+            <select id="stateSelect" disabled></select>
+          </div>
+          <pre id="stateItems" class="state-items"></pre>
+        </details>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>AmbiScope – Compiler Design Parser Visualizer</span>
+      <span class="muted">HTML • CSS • JavaScript</span>
+    </footer>
+
+    <script type="module" src="src/ui.js"></script>
+  </body>
+</html>

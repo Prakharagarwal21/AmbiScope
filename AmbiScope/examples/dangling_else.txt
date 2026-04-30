@@ -1,0 +1,3 @@
+S -> if E then S else S | if E then S | other
+E -> true
+
